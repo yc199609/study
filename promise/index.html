@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./promise.js"></script>
+</head>
+<body>
+    
+</body>
+</html>
+<script>
+    const p = new Promise((resolve, reject) => {
+        setTimeout(() => {
+            resolve(1)
+        }, 100)
+    })
+    p.then(
+        value => {
+            console.log('onresolve1', value)
+        },
+        reason => {
+            console.log('onreject1', reason)
+        }
+    )
+    p.then(
+        value => {
+            console.log('onresolve2', value)
+        },
+        reason => {
+            console.log('onreject2', reason)
+        }
+    )
+
+</script>
