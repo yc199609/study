@@ -4,33 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <script src="./promise.js"></script>
+    <!-- <script src="./promise.js"></script> -->
 </head>
 <body>
     
 </body>
 </html>
 <script>
-    const p = new Promise((resolve, reject) => {
-        setTimeout(() => {
-            resolve(1)
-        }, 100)
-    })
-    p.then(
-        value => {
-            console.log('onresolve1', value)
-        },
-        reason => {
-            console.log('onreject1', reason)
-        }
-    )
-    p.then(
-        value => {
-            console.log('onresolve2', value)
-        },
-        reason => {
-            console.log('onreject2', reason)
-        }
-    )
+    const p1 = Promise.resolve(1)
+    const p2 = Promise.resolve(Promise.resolve(2))
+    const p3 = Promise.resolve(Promise.reject(3))
 
+    p1.then(res => console.log(res))
+    p2.then(res => console.log(res))
+    p3.then(undefined,res => console.log(res))
 </script>
