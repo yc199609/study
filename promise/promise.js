@@ -120,7 +120,7 @@
         return new Promise((resolve, reject) => {
             // 遍历获取每个promise的结果
             promises.forEach((p, index) => {
-                p.then(
+                Promise.resolve(p).then(
                     value => { // 将成功的值保存到values
                         resolveCount ++
                         values[index] = value
@@ -137,7 +137,18 @@
     }
 
     Promise.race = function(promises) {
-
+        return new Promise((resolve, reject) => {
+            promises.forEach((p) => {
+                Promise.resolve(p).then(
+                    value => {
+                        resolve(value)
+                    },
+                    reason => {
+                        reject(reason)
+                    }
+                )
+            })
+        })
     }
 
     Promise.resolve = function(value) {
