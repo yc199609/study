@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <!-- <script src="./promise.js"></script> -->
+    <script src="./promise.js"></script>
 </head>
 <body>
     
@@ -14,8 +14,27 @@
     const p1 = Promise.resolve(1)
     const p2 = Promise.resolve(Promise.resolve(2))
     const p3 = Promise.resolve(Promise.reject(3))
+    const p4 = Promise.reject(4)
 
-    p1.then(res => console.log(res))
-    p2.then(res => console.log(res))
-    p3.then(undefined,res => console.log(res))
+    const pAll = Promise.all([p1, p2, p3, p4])
+
+    pAll.then(
+        value => {
+            console.log('all onResolved()', value)
+        },
+        reason => {
+            console.log('all onRejected()', reason)
+        }
+    )
+
+    // const pRace = Promise.race([p1, p2, p3])
+
+    // pRace.then(
+    //     value => {
+    //         console.log('race onResolved()', value)
+    //     },
+    //     reason => {
+    //         console.log('race onRejected()', reason)
+    //     }
+    // )
 </script>

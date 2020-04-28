@@ -57,7 +57,10 @@
         onResolved = typeof onResolved === 'function' ? onResolved : value => value
 
         // 指定默认的失败回调(实现错误/异常穿透的关键点)
-        onRejected = typeof onRejected === 'function' ? onRejected : reason => {throw reason}
+        onRejected = typeof onRejected === 'function' ? onRejected : reason => {
+            console.error(reason)
+            throw new Error(reason)
+        }
 
         const self = this
         
@@ -112,7 +115,25 @@
     }
 
     Promise.all = function(promises) {
-
+        const values = new Array(promises.length) // 用来保存所有成功value的数组
+        let resolveCount = 0 // 用来保存成功的数量
+        return new Promise((resolve, reject) => {
+            // 遍历获取每个promise的结果
+            promises.forEach((p, index) => {
+                p.then(
+                    value => { // 将成功的值保存到values
+                        resolveCount ++
+                        values[index] = value
+                        if(resolveCount === promises.length) {
+                            resolve(values)
+                        }
+                    },
+                    reason => { // 只要一个失败了，return的promise就失败
+                        reject(reason)
+                    }
+                )
+            })
+        })
     }
 
     Promise.race = function(promises) {
